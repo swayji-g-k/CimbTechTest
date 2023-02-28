@@ -1,14 +1,10 @@
 package com.TechnicalTest.Controllers;
 
-import com.TechnicalTest.Models.UserEntity;
 import com.TechnicalTest.Requests.UserRequests;
 import com.TechnicalTest.Responses.DataResponse;
 import com.TechnicalTest.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController

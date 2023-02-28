@@ -26,6 +26,6 @@ public class TransactionTypeEntity {
     @Column(name = "transaction_name", nullable = false)
     private String transactionName;
 
-    @OneToMany(mappedBy = "transactionTypeEntity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TransactionHistoryEntity> menuConfigCompanyCodes;
+    @OneToMany(mappedBy = "transactionType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TransactionHistoryEntity> TransactionHistory;
 }

@@ -31,5 +31,5 @@ public class TransactionHistoryEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "transaction_type_id")
-    private TransactionTypeEntity transactionTypeEntity;
+    private TransactionTypeEntity transactionType;
 }
