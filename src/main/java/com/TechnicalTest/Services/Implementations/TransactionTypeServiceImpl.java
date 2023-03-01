@@ -1,15 +1,12 @@
 package com.TechnicalTest.Services.Implementations;
 
 import com.TechnicalTest.Models.TransactionTypeEntity;
-import com.TechnicalTest.Models.UserEntity;
 import com.TechnicalTest.Repositorys.TransactionTypeEntityRepository;
 import com.TechnicalTest.Requests.TransactionTypeRequests;
-import com.TechnicalTest.Requests.UserRequests;
 import com.TechnicalTest.Responses.DataResponse;
 import com.TechnicalTest.Services.TransactionTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,16 +18,16 @@ import java.util.Optional;
 public class TransactionTypeServiceImpl implements TransactionTypeService {
 
     @Autowired
-    TransactionTypeEntityRepository transactionTypeEntityRepository;
+    TransactionTypeEntityRepository transTypeEntityRepository;
 
     public DataResponse getAllTransactionType() {
-        List<TransactionTypeEntity> usersList = transactionTypeEntityRepository.findAll();
-        return new DataResponse(HttpStatus.OK.value(), "success", usersList);
+        List<TransactionTypeEntity> transTypeList = transTypeEntityRepository.findAll();
+        return new DataResponse(HttpStatus.OK.value(), "success", transTypeList);
     }
 
-    public DataResponse getTransactionType(Integer userId) {
-        BigInteger id = BigInteger.valueOf(userId);
-        Optional<TransactionTypeEntity> currentTransType = transactionTypeEntityRepository.findById(id);
+    public DataResponse getTransactionType(Integer transTypeId) {
+        BigInteger id = BigInteger.valueOf(transTypeId);
+        Optional<TransactionTypeEntity> currentTransType = transTypeEntityRepository.findById(id);
         if (currentTransType.isPresent()) {
             TransactionTypeEntity transType = currentTransType.get();
             return new DataResponse(HttpStatus.OK.value(), "success", transType);
@@ -42,11 +39,11 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
     @Transactional
     public DataResponse addTransactionType(TransactionTypeRequests transTypeRequests) {
         TransactionTypeEntity newTransType = new TransactionTypeEntity();
-        TransactionTypeEntity checkTransTypeCode = transactionTypeEntityRepository.findTopByTransactionCode(transTypeRequests.getTransactionCode());
+        TransactionTypeEntity checkTransTypeCode = transTypeEntityRepository.findTopByTransactionCode(transTypeRequests.getTransactionCode());
         if (checkTransTypeCode == null) {
             newTransType.setTransactionCode(transTypeRequests.getTransactionCode());
             newTransType.setTransactionName(transTypeRequests.getTransactionName());
-            newTransType = transactionTypeEntityRepository.save(newTransType);
+            newTransType = transTypeEntityRepository.save(newTransType);
             return new DataResponse(HttpStatus.OK.value(), "success", newTransType);
         } else {
             return new DataResponse(HttpStatus.FOUND.value(), "failed", null);
@@ -56,12 +53,12 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
     @Transactional
     public DataResponse updateTransactionType(Integer transTypeId, TransactionTypeRequests transTypeRequests) {
         BigInteger id = BigInteger.valueOf(transTypeId);
-        Optional<TransactionTypeEntity> currentTransType = transactionTypeEntityRepository.findById(id);
+        Optional<TransactionTypeEntity> currentTransType = transTypeEntityRepository.findById(id);
         if (currentTransType.isPresent()) {
             TransactionTypeEntity TransType = currentTransType.get();
             TransType.setTransactionCode(transTypeRequests.getTransactionCode());
             TransType.setTransactionName(transTypeRequests.getTransactionName());
-            TransType = transactionTypeEntityRepository.save(TransType);
+            TransType = transTypeEntityRepository.save(TransType);
             return new DataResponse(HttpStatus.OK.value(), "success", TransType);
         } else {
             return new DataResponse(HttpStatus.NOT_FOUND.value(), "failed", null);
@@ -71,10 +68,10 @@ public class TransactionTypeServiceImpl implements TransactionTypeService {
     @Transactional
     public DataResponse deleteTransactionType(Integer userId) {
         BigInteger id = BigInteger.valueOf(userId);
-        Optional<TransactionTypeEntity> currentTransType = transactionTypeEntityRepository.findById(id);
+        Optional<TransactionTypeEntity> currentTransType = transTypeEntityRepository.findById(id);
         if (currentTransType.isPresent()) {
             TransactionTypeEntity transType = currentTransType.get();
-            transactionTypeEntityRepository.delete(transType);
+            transTypeEntityRepository.delete(transType);
             return new DataResponse(HttpStatus.OK.value(), "success", transType);
         } else {
             return new DataResponse(HttpStatus.NOT_FOUND.value(), "failed", null);

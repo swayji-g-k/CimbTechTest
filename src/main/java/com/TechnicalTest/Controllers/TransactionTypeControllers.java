@@ -20,8 +20,8 @@ public class TransactionTypeControllers {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/getTransactionType/{id}")
-    public DataResponse getTransactionType(@PathVariable("id") Integer userId) {
-        return transactionTypeService.getTransactionType(userId);
+    public DataResponse getTransactionType(@PathVariable("id") Integer transTypeId) {
+        return transactionTypeService.getTransactionType(transTypeId);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/addTransactionType")
@@ -35,7 +35,7 @@ public class TransactionTypeControllers {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTransactionType/{id}")
-    public DataResponse deleteTransactionType(@PathVariable("id") Integer userId) {
-        return transactionTypeService.deleteTransactionType(userId);
+    public DataResponse deleteTransactionType(@PathVariable("id") Integer transTypeId) {
+        return transactionTypeService.deleteTransactionType(transTypeId);
     }
 }

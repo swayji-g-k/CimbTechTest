@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class TransactionHistoryRequests {
 
-    private String transactionCode;
-    private String transactionName;
+    private Integer amount;
+    private Integer userId;
+    private Integer transTypeId;
 }

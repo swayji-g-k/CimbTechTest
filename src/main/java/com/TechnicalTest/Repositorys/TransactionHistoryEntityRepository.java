@@ -9,6 +9,4 @@ import java.util.List;
 public interface TransactionHistoryEntityRepository extends CrudRepository<TransactionHistoryEntity, BigInteger> {
 
     List<TransactionHistoryEntity> findAll();
-//    List<TransactionHistoryEntity> findByUserId(Integer userId);
-//    TransactionHistoryEntity findTopByTransactionCode(String transTypeCode);
 }

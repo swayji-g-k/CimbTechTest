@@ -5,7 +5,6 @@ import com.TechnicalTest.Repositorys.UserEntityRepository;
 import com.TechnicalTest.Requests.UserRequests;
 import com.TechnicalTest.Responses.DataResponse;
 import com.TechnicalTest.Services.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -31,7 +29,6 @@ public class UserServiceImpl implements UserService {
     public DataResponse getUser(Integer userId) {
         BigInteger id = BigInteger.valueOf(userId);
         Optional<UserEntity> currentUser = userEntityRepository.findById(id);
-        log.info("currentUser: " + currentUser);
         if (currentUser.isPresent()) {
             UserEntity user = currentUser.get();
             return new DataResponse(HttpStatus.OK.value(), "success", user);

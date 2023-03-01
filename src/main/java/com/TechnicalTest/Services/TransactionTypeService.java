@@ -7,7 +7,7 @@ import com.TechnicalTest.Responses.DataResponse;
 public interface TransactionTypeService {
 
     DataResponse getAllTransactionType();
-    DataResponse getTransactionType(Integer userId);
+    DataResponse getTransactionType(Integer transTypeId);
     DataResponse addTransactionType(TransactionTypeRequests transTypeRequests);
     DataResponse updateTransactionType(Integer transTypeId, TransactionTypeRequests transTypeRequests);
     DataResponse deleteTransactionType(Integer transTypeId);

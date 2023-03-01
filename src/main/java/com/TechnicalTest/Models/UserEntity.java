@@ -6,7 +6,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tb_users", indexes = {

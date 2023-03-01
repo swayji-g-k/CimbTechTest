@@ -14,28 +14,28 @@ public class TransactionHistoryControllers {
     @Autowired
     TransactionHistoryService transactionHistoryService;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getAllTransactionType")
-    public DataResponse getAllTransactionType() {
-        return transactionHistoryService.getAllTransactionType();
+    @RequestMapping(method = RequestMethod.GET, value = "/getAllTransactionHistory")
+    public DataResponse getAllTransactionHistory() {
+        return transactionHistoryService.getAllTransactionHistory();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/getTransactionType/{id}")
-    public DataResponse getTransactionType(@PathVariable("id") Integer userId) {
-        return transactionHistoryService.getTransactionType(userId);
+    @RequestMapping(method = RequestMethod.GET, value = "/getTransactionHistory/{id}")
+    public DataResponse getTransactionHistory(@PathVariable("id") Integer transHistoryId) {
+        return transactionHistoryService.getTransactionHistory(transHistoryId);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/addTransactionType")
-    public DataResponse addTransactionType(@RequestBody TransactionHistoryRequests transHistoryRequests) {
-        return transactionHistoryService.addTransactionType(transHistoryRequests);
+    @RequestMapping(method = RequestMethod.POST, value = "/addTransactionHistory")
+    public DataResponse addTransactionHistory(@RequestBody TransactionHistoryRequests transHistoryRequests) {
+        return transactionHistoryService.addTransactionHistory(transHistoryRequests);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/updateTransactionType/{id}")
-    public DataResponse updateTransactionType(@PathVariable("id") Integer transTypeId, @RequestBody TransactionHistoryRequests transHistoryRequests) {
-        return transactionHistoryService.updateTransactionType(transTypeId, transHistoryRequests);
+    @RequestMapping(method = RequestMethod.PUT, value = "/updateTransactionHistory/{id}")
+    public DataResponse updateTransactionHistory(@PathVariable("id") Integer transHistoryId, @RequestBody TransactionHistoryRequests transHistoryRequests) {
+        return transactionHistoryService.updateTransactionHistory(transHistoryId, transHistoryRequests);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTransactionType/{id}")
-    public DataResponse deleteTransactionType(@PathVariable("id") Integer userId) {
-        return transactionHistoryService.deleteTransactionType(userId);
+    @RequestMapping(method = RequestMethod.DELETE, value = "/deleteTransactionHistory/{id}")
+    public DataResponse deleteTransactionHistory(@PathVariable("id") Integer transHistoryId) {
+        return transactionHistoryService.deleteTransactionHistory(transHistoryId);
     }
 }

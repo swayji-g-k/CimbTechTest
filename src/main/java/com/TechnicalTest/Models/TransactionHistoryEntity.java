@@ -2,9 +2,6 @@ package com.TechnicalTest.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.math.BigInteger;
@@ -23,6 +20,11 @@ public class TransactionHistoryEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "activity_date", nullable = false)
     private Date activityDate;
+
+    @PrePersist
+    public void prePersist() {
+        if (activityDate == null) { activityDate = new Date(); }
+    }
 
     @Column(nullable = false)
     private BigInteger amount;

@@ -5,9 +5,9 @@ import com.TechnicalTest.Responses.DataResponse;
 
 public interface TransactionHistoryService {
 
-    DataResponse getAllTransactionType();
-    DataResponse getTransactionType(Integer userId);
-    DataResponse addTransactionType(TransactionHistoryRequests transHistoryRequests);
-    DataResponse updateTransactionType(Integer transTypeId, TransactionHistoryRequests transHistoryRequests);
-    DataResponse deleteTransactionType(Integer transTypeId);
+    DataResponse getAllTransactionHistory();
+    DataResponse getTransactionHistory(Integer transHistoryId);
+    DataResponse addTransactionHistory(TransactionHistoryRequests transHistoryRequests);
+    DataResponse updateTransactionHistory(Integer transHistoryId, TransactionHistoryRequests transHistoryRequests);
+    DataResponse deleteTransactionHistory(Integer transHistoryId);
 }

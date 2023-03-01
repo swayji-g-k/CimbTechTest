@@ -1,7 +1,11 @@
 package com.TechnicalTest.Services.Implementations;
 
+import com.TechnicalTest.Models.TransactionHistoryEntity;
 import com.TechnicalTest.Models.TransactionTypeEntity;
+import com.TechnicalTest.Models.UserEntity;
+import com.TechnicalTest.Repositorys.TransactionHistoryEntityRepository;
 import com.TechnicalTest.Repositorys.TransactionTypeEntityRepository;
+import com.TechnicalTest.Repositorys.UserEntityRepository;
 import com.TechnicalTest.Requests.TransactionHistoryRequests;
 import com.TechnicalTest.Responses.DataResponse;
 import com.TechnicalTest.Services.TransactionHistoryService;
@@ -18,61 +22,77 @@ import java.util.Optional;
 public class TransactionHistoryServiceImpl implements TransactionHistoryService {
 
     @Autowired
-    TransactionTypeEntityRepository transactionTypeEntityRepository;
+    UserEntityRepository userEntityRepository;
 
-    public DataResponse getAllTransactionType() {
-        List<TransactionTypeEntity> usersList = transactionTypeEntityRepository.findAll();
-        return new DataResponse(HttpStatus.OK.value(), "success", usersList);
+    @Autowired
+    TransactionTypeEntityRepository transTypeEntityRepository;
+
+    @Autowired
+    TransactionHistoryEntityRepository transHistoryEntityRepository;
+
+    public DataResponse getAllTransactionHistory() {
+        List<TransactionHistoryEntity> historyList = transHistoryEntityRepository.findAll();
+        return new DataResponse(HttpStatus.OK.value(), "success", historyList);
     }
 
-    public DataResponse getTransactionType(Integer userId) {
-        BigInteger id = BigInteger.valueOf(userId);
-        Optional<TransactionTypeEntity> currentTransType = transactionTypeEntityRepository.findById(id);
-        if (currentTransType.isPresent()) {
-            TransactionTypeEntity transType = currentTransType.get();
-            return new DataResponse(HttpStatus.OK.value(), "success", transType);
+    public DataResponse getTransactionHistory(Integer transHistoryId) {
+        BigInteger id = BigInteger.valueOf(transHistoryId);
+        Optional<TransactionHistoryEntity> currentTransHistory = transHistoryEntityRepository.findById(id);
+        if (currentTransHistory.isPresent()) {
+            return new DataResponse(HttpStatus.OK.value(), "success", currentTransHistory.get());
         } else {
             return new DataResponse(HttpStatus.NOT_FOUND.value(), "failed", null);
         }
     }
 
     @Transactional
-    public DataResponse addTransactionType(TransactionHistoryRequests transHistoryRequests) {
-        TransactionTypeEntity newTransType = new TransactionTypeEntity();
-        TransactionTypeEntity checkTransTypeCode = transactionTypeEntityRepository.findTopByTransactionCode(transHistoryRequests.getTransactionCode());
-        if (checkTransTypeCode == null) {
-            newTransType.setTransactionCode(transHistoryRequests.getTransactionCode());
-            newTransType.setTransactionName(transHistoryRequests.getTransactionName());
-            newTransType = transactionTypeEntityRepository.save(newTransType);
-            return new DataResponse(HttpStatus.OK.value(), "success", newTransType);
+    public DataResponse addTransactionHistory(TransactionHistoryRequests transHistoryRequests) {
+        BigInteger userId = BigInteger.valueOf(transHistoryRequests.getUserId());
+        BigInteger transTypeId = BigInteger.valueOf(transHistoryRequests.getTransTypeId());
+
+        Optional<UserEntity> checkUser = userEntityRepository.findById(userId);
+        Optional<TransactionTypeEntity> checkTransType = transTypeEntityRepository.findById(transTypeId);
+        if (checkUser.isPresent() && checkTransType.isPresent()) {
+            TransactionHistoryEntity newTransHistory = new TransactionHistoryEntity();
+            newTransHistory.setAmount(BigInteger.valueOf(transHistoryRequests.getAmount()));
+            newTransHistory.setUserEntity(checkUser.get());
+            newTransHistory.setTransactionType(checkTransType.get());
+            newTransHistory = transHistoryEntityRepository.save(newTransHistory);
+            return new DataResponse(HttpStatus.OK.value(), "success", newTransHistory);
         } else {
             return new DataResponse(HttpStatus.FOUND.value(), "failed", null);
         }
     }
 
     @Transactional
-    public DataResponse updateTransactionType(Integer transTypeId, TransactionHistoryRequests transHistoryRequests) {
-        BigInteger id = BigInteger.valueOf(transTypeId);
-        Optional<TransactionTypeEntity> currentTransType = transactionTypeEntityRepository.findById(id);
-        if (currentTransType.isPresent()) {
-            TransactionTypeEntity TransType = currentTransType.get();
-            TransType.setTransactionCode(transHistoryRequests.getTransactionCode());
-            TransType.setTransactionName(transHistoryRequests.getTransactionName());
-            TransType = transactionTypeEntityRepository.save(TransType);
-            return new DataResponse(HttpStatus.OK.value(), "success", TransType);
+    public DataResponse updateTransactionHistory(Integer transHistoryId, TransactionHistoryRequests transHistoryRequests) {
+        BigInteger userId = BigInteger.valueOf(transHistoryRequests.getUserId());
+        BigInteger transTypeId = BigInteger.valueOf(transHistoryRequests.getTransTypeId());
+        BigInteger historyId = BigInteger.valueOf(transHistoryId);
+
+        Optional<TransactionHistoryEntity> checkTransHistory = transHistoryEntityRepository.findById(historyId);
+        Optional<UserEntity> checkUser = userEntityRepository.findById(userId);
+        Optional<TransactionTypeEntity> checkTransType = transTypeEntityRepository.findById(transTypeId);
+        if (checkTransHistory.isPresent() && checkUser.isPresent() && checkTransType.isPresent()) {
+            TransactionHistoryEntity currentTransHistory = checkTransHistory.get();
+            currentTransHistory.setAmount(BigInteger.valueOf(transHistoryRequests.getAmount()));
+            currentTransHistory.setUserEntity(checkUser.get());
+            currentTransHistory.setTransactionType(checkTransType.get());
+            currentTransHistory = transHistoryEntityRepository.save(currentTransHistory);
+            return new DataResponse(HttpStatus.OK.value(), "success", currentTransHistory);
         } else {
-            return new DataResponse(HttpStatus.NOT_FOUND.value(), "failed", null);
+            return new DataResponse(HttpStatus.FOUND.value(), "failed", null);
         }
     }
 
     @Transactional
-    public DataResponse deleteTransactionType(Integer userId) {
-        BigInteger id = BigInteger.valueOf(userId);
-        Optional<TransactionTypeEntity> currentTransType = transactionTypeEntityRepository.findById(id);
-        if (currentTransType.isPresent()) {
-            TransactionTypeEntity transType = currentTransType.get();
-            transactionTypeEntityRepository.delete(transType);
-            return new DataResponse(HttpStatus.OK.value(), "success", transType);
+    public DataResponse deleteTransactionHistory(Integer transHistoryId) {
+        BigInteger id = BigInteger.valueOf(transHistoryId);
+        Optional<TransactionHistoryEntity> currentTransHistory = transHistoryEntityRepository.findById(id);
+        if (currentTransHistory.isPresent()) {
+            TransactionHistoryEntity transHistory = currentTransHistory.get();
+            transHistoryEntityRepository.delete(transHistory);
+            return new DataResponse(HttpStatus.OK.value(), "success", transHistory);
         } else {
             return new DataResponse(HttpStatus.NOT_FOUND.value(), "failed", null);
         }

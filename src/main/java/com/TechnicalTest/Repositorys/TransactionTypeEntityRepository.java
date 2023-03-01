@@ -9,5 +9,6 @@ import java.util.List;
 public interface TransactionTypeEntityRepository extends CrudRepository<TransactionTypeEntity, BigInteger> {
 
     List<TransactionTypeEntity> findAll();
-    TransactionTypeEntity findTopByTransactionCode(String transTypeCode);
+
+    TransactionTypeEntity findTopByTransactionCode(String transCode);
 }
